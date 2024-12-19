@@ -49,6 +49,7 @@ import core.data.weather.model.Location
 import core.ui.Destination
 import core.ui.theme.OnCardBackground
 import core.ui.theme.OnCardBackgroundLight
+import core.ui.theme.Poppins
 import org.koin.androidx.compose.koinViewModel
 import kotlin.math.roundToInt
 
@@ -78,6 +79,7 @@ fun WeatherScreen(navController: NavController, viewModel: WeatherViewModel = ko
                 Spacer(modifier = Modifier.weight(1f))
                 Text(
                     text = "No City Selected",
+                    fontFamily = Poppins,
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         fontSize = 32.sp,
@@ -87,6 +89,7 @@ fun WeatherScreen(navController: NavController, viewModel: WeatherViewModel = ko
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "Please Search For A City",
+                    fontFamily = Poppins,
                     style = TextStyle(
                         fontSize = 16.sp,
                         textAlign = TextAlign.Center
@@ -121,6 +124,7 @@ fun SearchBar(onSearch: (String) -> Unit) {
         placeholder = {
             Text(
                 text = "Search Location",
+                fontFamily = Poppins,
                 color = OnCardBackgroundLight
             )
         },
@@ -130,6 +134,7 @@ fun SearchBar(onSearch: (String) -> Unit) {
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
         textStyle = TextStyle(
+            fontFamily = Poppins,
             fontSize = 16.sp,
             fontWeight = FontWeight.Light,
             color = Color.Gray
@@ -197,6 +202,7 @@ fun SearchItem(location: Location, weather: CurrentWeather, onClick: (Location) 
             ) {
                 Text(
                     text = location.name,
+                    fontFamily = Poppins,
                     style = TextStyle(
                         fontWeight = FontWeight.W600,
                         fontSize = 24.sp
@@ -207,6 +213,7 @@ fun SearchItem(location: Location, weather: CurrentWeather, onClick: (Location) 
                 ) {
                     Text(
                         text = weather.temp_c.roundToInt().toString(),
+                        fontFamily = Poppins,
                         style = TextStyle(
                             fontWeight = FontWeight.W500,
                             fontSize = 48.sp
@@ -247,6 +254,7 @@ fun Location(weatherAtLocation: CurrentWeatherAtLocation) {
     ) {
         Text(
             text = location.name,
+            fontFamily = Poppins,
             style = TextStyle(
                 fontWeight = FontWeight.Bold,
                 fontSize = 32.sp
@@ -265,6 +273,7 @@ fun Location(weatherAtLocation: CurrentWeatherAtLocation) {
     ) {
         Text(
             text = weather.temp_c.roundToInt().toString(),
+            fontFamily = Poppins,
             style = TextStyle(
                 fontSize = 64.sp,
                 fontWeight = FontWeight.Light
@@ -289,11 +298,13 @@ fun Location(weatherAtLocation: CurrentWeatherAtLocation) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
                     text = "Humidity",
+                    fontFamily = Poppins,
                     color = OnCardBackgroundLight
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "${weather.humidity}%",
+                    fontFamily = Poppins,
                     color = OnCardBackground
                 )
             }
@@ -301,11 +312,13 @@ fun Location(weatherAtLocation: CurrentWeatherAtLocation) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
                     text = "UV",
+                    fontFamily = Poppins,
                     color = OnCardBackgroundLight
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = weather.uv.roundToInt().toString(),
+                    fontFamily = Poppins,
                     color = OnCardBackground
                 )
             }
@@ -313,11 +326,13 @@ fun Location(weatherAtLocation: CurrentWeatherAtLocation) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
                     text = "Feels Like",
+                    fontFamily = Poppins,
                     color = OnCardBackgroundLight
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "${weather.feelslike_c.roundToInt()}°",
+                    fontFamily = Poppins,
                     color = OnCardBackground
                 )
             }
