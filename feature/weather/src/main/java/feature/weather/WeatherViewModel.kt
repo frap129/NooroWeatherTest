@@ -8,18 +8,20 @@ import core.data.weather.WeatherRepository
 import core.data.weather.model.CurrentWeatherAtLocation
 import core.data.weather.model.Location
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 sealed class WeatherScreenState {
     data object Loading : WeatherScreenState()
     data object Error : WeatherScreenState()
     data object NoLocation : WeatherScreenState()
-    data class Search(val searchResults: List<CurrentWeatherAtLocation>) : WeatherScreenState()
+    data class Search(val searchResults: StateFlow<List<CurrentWeatherAtLocation>>) : WeatherScreenState()
     data class Location(val currentWeatherAtLocation: CurrentWeatherAtLocation) : WeatherScreenState()
 }
 
@@ -40,10 +42,14 @@ class WeatherViewModel(private val preferencesRepo: PreferencesRepository, priva
         }
     }
 
-    fun searchLocations(query: String) = weatherRepo.searchLocations(query).map { locations: List<Location> ->
-        locations.fastMap { location ->
-           weatherRepo.getCurrentWeatherAtLocation(location)
-        }
+    fun searchLocations(query: String) {
+        _uiState.value = WeatherScreenState.Search(
+            weatherRepo.searchLocations(query).map { locations: List<Location> ->
+                locations.fastMap { location ->
+                    weatherRepo.getCurrentWeatherAtLocation(location)
+                }
+            }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
+        )
     }
 
     fun selectLocation(location: Location) = preferencesRepo.setLocation(location)

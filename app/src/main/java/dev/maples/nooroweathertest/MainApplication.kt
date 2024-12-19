@@ -3,6 +3,9 @@ package dev.maples.nooroweathertest
 import android.app.Application
 import android.content.Context
 import androidx.room.Room
+import coil3.ImageLoader
+import coil3.SingletonImageLoader
+import coil3.request.crossfade
 import core.data.RetrofitClient
 import core.data.prefs.PreferencesRepository
 import core.data.prefs.PreferencesRepositoryImpl
@@ -21,7 +24,9 @@ import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 import timber.log.Timber
 
-class MainApplication : Application() {
+class MainApplication :
+    Application(),
+    SingletonImageLoader.Factory {
     private val repoCoroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO)
     private val database by lazy {
         Room.databaseBuilder(
@@ -67,4 +72,8 @@ class MainApplication : Application() {
             // TODO: Configure reporting for release builds
         }
     }
+
+    override fun newImageLoader(context: Context): ImageLoader = ImageLoader.Builder(context)
+        .crossfade(true)
+        .build()
 }

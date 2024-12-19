@@ -56,6 +56,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.service)
     annotationProcessor(libs.androidx.lifecycle.compiler)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.android)
     implementation(libs.util.timber)

@@ -51,6 +51,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.service)
     annotationProcessor(libs.androidx.lifecycle.compiler)
+    implementation(libs.coil.compose)
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.android)
     implementation(libs.util.timber)

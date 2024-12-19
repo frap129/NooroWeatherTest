@@ -9,7 +9,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 object RetrofitClient {
-    private const val BASE_URL = "http://api.weatherapi.com/v1/"
+    private const val BASE_URL = "https://api.weatherapi.com/v1/"
     private val logging = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
     private val okHttpClient = OkHttpClient.Builder()
         .addInterceptor(logging)
