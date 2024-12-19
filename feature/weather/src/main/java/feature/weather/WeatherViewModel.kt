@@ -54,5 +54,13 @@ class WeatherViewModel(private val preferencesRepo: PreferencesRepository, priva
         )
     }
 
-    fun selectLocation(location: Location) = preferencesRepo.setLocation(location)
+    fun selectLocation(location: Location) {
+        if (location == savedLocation.value) {
+            viewModelScope.launch {
+                _uiState.value = WeatherScreenState.Location(weatherRepo.getCurrentWeatherAtLocation(location))
+            }
+        }
+
+        preferencesRepo.setLocation(location)
+    }
 }
