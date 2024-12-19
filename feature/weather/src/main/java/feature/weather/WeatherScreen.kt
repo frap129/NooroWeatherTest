@@ -12,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -34,6 +35,7 @@ import core.data.weather.model.CurrentWeather
 import core.data.weather.model.CurrentWeatherAtLocation
 import core.data.weather.model.Location
 import core.ui.Destination
+import core.ui.theme.OnCardBackground
 import core.ui.theme.OnCardBackgroundLight
 import kotlin.math.roundToInt
 import org.koin.androidx.compose.koinViewModel
@@ -238,6 +240,7 @@ fun Location(weatherAtLocation: CurrentWeatherAtLocation) {
                 fontSize = 32.sp
             )
         )
+        Spacer(modifier = Modifier.width(8.dp))
         Icon(
             painter = painterResource(id = R.drawable.vector),
             contentDescription = null,
@@ -258,21 +261,46 @@ fun Location(weatherAtLocation: CurrentWeatherAtLocation) {
         modifier = Modifier.padding(16.dp)
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
-            horizontalArrangement = Arrangement.SpaceAround
+            modifier = Modifier.padding(vertical = 16.dp),
+            horizontalArrangement = Arrangement.Center
         ) {
+            Spacer(modifier = Modifier.width(16.dp))
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(text = "Humidity", style = TextStyle(color = Color.Gray, fontWeight = FontWeight.Light))
-                Text(text = "${weather.humidity}%", style = TextStyle(fontWeight = FontWeight.Normal))
+                Text(
+                    text = "Humidity",
+                    color = OnCardBackgroundLight
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "${weather.humidity}%",
+                    color = OnCardBackground,
+                )
             }
+            Spacer(modifier = Modifier.width(48.dp))
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(text = "UV", style = TextStyle(color = Color.Gray, fontWeight = FontWeight.Light))
-                Text(text = weather.uv.toString(), style = TextStyle(fontWeight = FontWeight.Normal))
+                Text(
+                    text = "UV",
+                    color = OnCardBackgroundLight
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = weather.uv.roundToInt().toString(),
+                    color = OnCardBackground,
+                )
             }
+            Spacer(modifier = Modifier.width(48.dp))
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(text = "Feels Like", style = TextStyle(color = Color.Gray, fontWeight = FontWeight.Light))
-                Text(text = weather.feelslike_c.toString(), style = TextStyle(fontWeight = FontWeight.Normal))
+                Text(
+                    text = "Feels Like",
+                    color = OnCardBackgroundLight
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = weather.feelslike_c.roundToInt().toString(),
+                    color = OnCardBackground,
+                )
             }
+            Spacer(modifier = Modifier.width(16.dp))
         }
     }
 }
