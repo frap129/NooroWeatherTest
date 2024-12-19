@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import core.data.prefs.PreferencesRepository
 import core.data.weather.WeatherRepository
+import core.data.weather.model.CurrentWeather
 import core.data.weather.model.CurrentWeatherAtLocation
 import core.data.weather.model.Location
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +22,8 @@ sealed class WeatherScreenState {
     data object Loading : WeatherScreenState()
     data object Error : WeatherScreenState()
     data object NoLocation : WeatherScreenState()
-    data class Search(val searchResults: StateFlow<List<CurrentWeatherAtLocation>>) : WeatherScreenState()
+    data class Search(val searchResults: StateFlow<List<Pair<core.data.weather.model.Location, CurrentWeather>>>) :
+        WeatherScreenState()
     data class Location(val currentWeatherAtLocation: CurrentWeatherAtLocation) : WeatherScreenState()
 }
 
@@ -46,7 +48,7 @@ class WeatherViewModel(private val preferencesRepo: PreferencesRepository, priva
         _uiState.value = WeatherScreenState.Search(
             weatherRepo.searchLocations(query).map { locations: List<Location> ->
                 locations.fastMap { location ->
-                    weatherRepo.getCurrentWeatherAtLocation(location)
+                    Pair(location, weatherRepo.getCurrentWeatherAtLocation(location).current)
                 }
             }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
         )

@@ -20,7 +20,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -30,7 +29,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
+import core.data.weather.model.CurrentWeather
 import core.data.weather.model.CurrentWeatherAtLocation
+import core.data.weather.model.Location
 import core.ui.Destination
 import core.ui.theme.OnCardBackgroundLight
 import kotlin.math.roundToInt
@@ -81,10 +82,14 @@ fun WeatherScreen(navController: NavController, viewModel: WeatherViewModel = ko
 
             is WeatherScreenState.Search -> {
                 val results = (uiState as WeatherScreenState.Search).searchResults.collectAsState()
-                SearchResults(results.value)
+                SearchResults(results.value) {
+                    viewModel.selectLocation(it)
+                }
             }
 
-            is WeatherScreenState.Location -> {}
+            is WeatherScreenState.Location -> {
+                Location((uiState as WeatherScreenState.Location).currentWeatherAtLocation)
+            }
         }
     }
 }
@@ -134,7 +139,7 @@ fun SearchBar(onSearch: (String) -> Unit) {
 }
 
 @Composable
-fun SearchResults(searchResults: List<CurrentWeatherAtLocation>) {
+fun SearchResults(searchResults: List<Pair<Location, CurrentWeather>>, onItemClicked: (Location) -> Unit) {
     Spacer(modifier = Modifier.height(16.dp))
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -142,16 +147,18 @@ fun SearchResults(searchResults: List<CurrentWeatherAtLocation>) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         items(searchResults) { item ->
-            SearchItem(item)
+            SearchItem(item.first, item.second, onItemClicked)
         }
     }
 }
 
 @Composable
-fun SearchItem(weatherAtLocation: CurrentWeatherAtLocation) {
+fun SearchItem(location: Location, weather: CurrentWeather, onClick: (Location) -> Unit) {
     Card(
         shape = RoundedCornerShape(16.dp),
-        modifier = Modifier.padding(16.dp)
+        modifier = Modifier
+            .padding(16.dp)
+            .clickable { onClick(location) }
     ) {
         Row(
             modifier = Modifier
@@ -164,7 +171,7 @@ fun SearchItem(weatherAtLocation: CurrentWeatherAtLocation) {
                 horizontalAlignment = Alignment.Start
             ) {
                 Text(
-                    text = weatherAtLocation.location.name,
+                    text = location.name,
                     style = TextStyle(
                         fontWeight = FontWeight.W600,
                         fontSize = 24.sp
@@ -174,7 +181,7 @@ fun SearchItem(weatherAtLocation: CurrentWeatherAtLocation) {
                     verticalAlignment = Alignment.Top
                 ) {
                     Text(
-                        text = weatherAtLocation.current.temp_c.roundToInt().toString(),
+                        text = weather.temp_c.roundToInt().toString(),
                         style = TextStyle(
                             fontWeight = FontWeight.W500,
                             fontSize = 48.sp
@@ -189,11 +196,72 @@ fun SearchItem(weatherAtLocation: CurrentWeatherAtLocation) {
             }
 
             AsyncImage(
-                model = "https:${weatherAtLocation.current.condition.icon}",
-                contentScale = ContentScale.Fit,
-                contentDescription = weatherAtLocation.current.condition.text,
+                model = "https:${weather.condition.icon}",
+                contentDescription = weather.condition.text,
                 modifier = Modifier.size(90.dp)
             )
+        }
+    }
+}
+
+@Composable
+fun Location(weatherAtLocation: CurrentWeatherAtLocation) {
+    val weather = weatherAtLocation.current
+    val location = weatherAtLocation.location
+
+    Spacer(modifier = Modifier.height(64.dp))
+    AsyncImage(
+        model = "https:${weather.condition.icon}",
+        contentDescription = weather.condition.text,
+        modifier = Modifier.size(90.dp)
+    )
+
+    Spacer(modifier = Modifier.height(16.dp))
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = location.name,
+            style = TextStyle(
+                fontWeight = FontWeight.Bold,
+                fontSize = 32.sp
+            )
+        )
+        Icon(
+            painter = painterResource(id = R.drawable.vector),
+            contentDescription = null,
+            modifier = Modifier.size(24.dp)
+        )
+    }
+
+    Text(
+        text = weather.temp_c.roundToInt().toString(),
+        style = TextStyle(
+            fontSize = 64.sp,
+            fontWeight = FontWeight.Light
+        )
+    )
+    Spacer(modifier = Modifier.height(24.dp))
+    Card(
+        shape = RoundedCornerShape(16.dp),
+        modifier = Modifier.padding(16.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
+            horizontalArrangement = Arrangement.SpaceAround
+        ) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(text = "Humidity", style = TextStyle(color = Color.Gray, fontWeight = FontWeight.Light))
+                Text(text = "${weather.humidity}%", style = TextStyle(fontWeight = FontWeight.Normal))
+            }
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(text = "UV", style = TextStyle(color = Color.Gray, fontWeight = FontWeight.Light))
+                Text(text = weather.uv.toString(), style = TextStyle(fontWeight = FontWeight.Normal))
+            }
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(text = "Feels Like", style = TextStyle(color = Color.Gray, fontWeight = FontWeight.Light))
+                Text(text = weather.feelslike_c.toString(), style = TextStyle(fontWeight = FontWeight.Normal))
+            }
         }
     }
 }
