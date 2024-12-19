@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import core.ui.App
 import core.ui.Destination
+import feature.weather.weatherDestination
 
 class MainActivity : ComponentActivity() {
     /**
@@ -12,7 +13,9 @@ class MainActivity : ComponentActivity() {
      * This list is consumed by NavHost to add the defined routes to
      * the NavGraph.
      */
-    private val destinations: List<Destination> = listOf()
+    private val destinations: List<Destination> = listOf(
+        weatherDestination
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

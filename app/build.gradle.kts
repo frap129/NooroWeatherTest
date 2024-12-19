@@ -46,6 +46,7 @@ android {
 dependencies {
     implementation(project(":core:data"))
     implementation(project(":core:ui"))
+    implementation(project(":feature:weather"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.kotlinx.coroutines.core)

@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
 }
 
 android {
@@ -35,10 +36,14 @@ android {
 
     buildFeatures {
         buildConfig = true
+        compose = true
     }
 }
 
 dependencies {
+    implementation(project(":core:data"))
+    implementation(project(":core:ui"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
@@ -62,4 +67,6 @@ dependencies {
     testImplementation(libs.test.junit)
     androidTestImplementation(libs.test.androidx.ext.junit)
     androidTestImplementation(libs.test.espresso.core)
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.test.compose.ui.testManifest)
 }

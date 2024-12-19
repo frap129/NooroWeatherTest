@@ -11,11 +11,13 @@ import core.data.room.dao.LocationDao
 import core.data.weather.WeatherAPIService
 import core.data.weather.WeatherRepository
 import core.data.weather.WeatherRepositoryImpl
+import feature.weather.WeatherViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
+import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 import timber.log.Timber
 
@@ -37,11 +39,15 @@ class MainApplication : Application() {
         single<PreferencesRepository> { PreferencesRepositoryImpl(get(), repoCoroutineScope) }
     }
 
+    private val weatherFeature = module {
+        viewModel { WeatherViewModel(get(), get()) }
+    }
+
     override fun attachBaseContext(base: Context) {
         startKoin {
             androidContext(base)
             androidLogger()
-            modules(dependencies)
+            modules(dependencies, weatherFeature)
         }
         super.attachBaseContext(base)
     }
