@@ -20,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -97,6 +98,7 @@ fun WeatherScreen(navController: NavController, viewModel: WeatherViewModel = ko
 @Composable
 fun SearchBar(onSearch: (String) -> Unit) {
     var searchQuery by remember { mutableStateOf("") }
+    val focusManager = LocalFocusManager.current
 
     Spacer(modifier = Modifier.height(32.dp))
     TextField(
@@ -121,6 +123,7 @@ fun SearchBar(onSearch: (String) -> Unit) {
         trailingIcon = {
             Icon(
                 modifier = Modifier.clickable {
+                    focusManager.clearFocus()
                     onSearch(searchQuery)
                 },
                 imageVector = Icons.Filled.Search,
@@ -134,7 +137,10 @@ fun SearchBar(onSearch: (String) -> Unit) {
             disabledIndicatorColor = Color.Transparent
         ),
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-        keyboardActions = KeyboardActions(onSearch = { onSearch(searchQuery) })
+        keyboardActions = KeyboardActions(onSearch = {
+            focusManager.clearFocus()
+            onSearch(searchQuery)
+        })
     )
 }
 
@@ -154,11 +160,16 @@ fun SearchResults(searchResults: List<Pair<Location, CurrentWeather>>, onItemCli
 
 @Composable
 fun SearchItem(location: Location, weather: CurrentWeather, onClick: (Location) -> Unit) {
+    val focusManager = LocalFocusManager.current
+
     Card(
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
             .padding(16.dp)
-            .clickable { onClick(location) }
+            .clickable {
+                focusManager.clearFocus()
+                onClick(location)
+            }
     ) {
         Row(
             modifier = Modifier
