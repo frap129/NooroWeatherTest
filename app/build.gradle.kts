@@ -44,6 +44,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:data"))
     implementation(project(":core:ui"))
 
     implementation(libs.androidx.core.ktx)
@@ -53,6 +54,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.service)
     annotationProcessor(libs.androidx.lifecycle.compiler)
+    implementation(libs.androidx.room.ktx)
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.android)
     implementation(libs.util.timber)

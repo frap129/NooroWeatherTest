@@ -25,5 +25,5 @@ open class Destination(
     open val exitTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition?)? = {
         fadeOut(animationSpec = tween())
     },
-    open val arguments: List<NamedNavArgument> = emptyList(),
+    open val arguments: List<NamedNavArgument> = emptyList()
 )

@@ -5,29 +5,32 @@ androidx-test-ext-junit = "1.2.1"
 coil = "3.0.4"
 composeBom = "2024.12.01"
 core-ktx = "1.15.0"
-datastore= "1.1.1"
 espresso-core = "3.6.1"
 junit = "4.13.2"
 koin = "4.0.0"
-kotlin = "2.0.20"
+kotlin = "2.1.0"
 kotlinx-coroutines-core = "1.9.0"
+kotlinxSerializationJson = "1.7.3"
+ksp = "2.1.0-1.0.29"
 ktlint = "12.1.1"
 lifecycle = "2.8.7"
 okhttp = "4.12.0"
 moshi = "1.15.1"
 navigation-compose = "2.8.5"
 retrofit = "2.11.0"
+room = "2.6.1"
 timber = "5.0.1"
 
 [libraries]
-android-tools-build-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
-androidx-datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 androidx-lifecycle-compiler = { module = "androidx.lifecycle:lifecycle-compiler", version.ref = "lifecycle" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
 androidx-lifecycle-service = { module = "androidx.lifecycle:lifecycle-service", version.ref = "lifecycle" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation-compose" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil" }
 compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
@@ -43,6 +46,7 @@ koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose"}
 koin-compose = { module = "io.insert-koin:koin-compose"}
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines-core" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines-core" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
 moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
 okhttp-loggingInterceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
@@ -59,7 +63,7 @@ util-timber = { module = "com.jakewharton.timber:timber", version.ref = "timber"
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 android-test = { id = "com.android.test", version.ref = "agp" }
-kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlinSymbolProcessor = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
-
